@@ -1,1 +1,0 @@
-1. This code provide the data from Studio Ghibli API- "https://ghibliapi.herokuapp.com/#section/Studio-Ghibli-API"
