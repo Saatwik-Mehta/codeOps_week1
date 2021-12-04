@@ -1,0 +1,19 @@
+ table.dataframe{
+  border-collapse: collapse;
+  font-size:20px;
+  }
+th{
+text-align:center;
+vertical-align:middle!important
+overflow:hidden;
+}
+
+td{
+
+text-align:center;
+max-width:150px;
+min-width:100px;
+vertical-align:middle!important;
+overflow:auto;
+}
+
