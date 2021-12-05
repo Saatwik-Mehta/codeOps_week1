@@ -1,11 +1,20 @@
  table.dataframe{
   border-collapse: collapse;
   font-size:20px;
+
   }
+
+
+thead { display: table-header-group }
+
+tr { page-break-inside: avoid }
+
+
 th{
 text-align:center;
 vertical-align:middle!important
 overflow:hidden;
+
 }
 
 td{
@@ -16,4 +25,5 @@ min-width:100px;
 vertical-align:middle!important;
 overflow:auto;
 }
+
 

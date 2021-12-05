@@ -100,8 +100,8 @@ with open("ghibliStudioApi_html.html", "w", encoding="utf-8-sig") as f:
 
 df.to_csv("ghibliStudioApi_csv.csv", encoding="utf-8-sig", index=False)
 config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
-pdfkit.from_file('ghibliStudioApi_html.html', 'ghibliStudioApi_pdf.pdf', configuration=config, css="df_style.css",
-                 options={"orientation": "Landscape", "page-size": "A3"})
+pdfkit.from_file('ghibliStudioApi_html.html', 'ghibliStudioApi_pdf.pdf', configuration=config,
+                 options={"orientation": "Landscape", "page-size": "A3", 'user-style-sheet': 'C:\\Users\\Saatwik Mehta\\PycharmProjects\\codeOps_week1\\df_style.css'})
 df.to_excel("ghibliStudioApi_xl.xlsx", encoding="utf-8-sig", index=False)
 df.to_xml("ghibliStudioApi_xml.xml", index=False)
 
