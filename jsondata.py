@@ -1,4 +1,6 @@
 import csv
+from typing import TextIO
+
 import requests
 
 # HTTP request using GET method
@@ -11,6 +13,7 @@ data = result.json()
 t_list = []
 
 # Opening the CSV file where I will keep the data
+file: TextIO
 with open("csv_file.csv", "w", encoding="utf-8-sig") as file:
     header = data[0].keys()
 

@@ -5,8 +5,6 @@ data = []
 
 
 def func(v):
-    # v is a list type
-
     dict_val = []
     for item in v:
         if isinstance(item, dict):
@@ -30,8 +28,6 @@ data_cent = d_data['objectIDs'][0:100]
 for j in data_cent:
 
     result = requests.get("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + str(j))
-
-    # Saving data in JSON format
     response_data = result.json()
 
     for i in response_data:
@@ -41,8 +37,6 @@ for j in data_cent:
 
     # Saving the modified data
     data.append({i: response_data[i] for i in response_data})
-# Creating dataframe of the modified data
-df = pandas.DataFrame(data)
 
-# Saving data in CSV file
+df = pandas.DataFrame(data)
 df.to_csv("Metropolitan_Museum_api.csv", encoding="utf-8-sig", index=False, na_rep="None")
