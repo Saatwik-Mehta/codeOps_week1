@@ -1,0 +1,223 @@
+{
+    "status_code": 200,
+    "status_message": "Success",
+    "count": 24,
+    "data": [
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Ebay.In",
+            "Best_Price": "31,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4-32GB-Blossom Pink Smartphone with Original Flip Cover Pink",
+            "Product_Color": "",
+            "Uri": "http://www.ebay.in/itm/Samsung-Galaxy-Note-4-32GB-Blossom-Pink-Smartphone-with-Original-Flip-Cover-Pink-/222011779633?hash=item33b0eeea31:g:H5kAAOSwpzdWqfcq"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Flipkart",
+            "Best_Price": "29,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://dl.flipkart.com/dl/samsung-galaxy-note-4/p/itmeyfhgu3ygqwph?pid=MOBEYAW2BT7MFW9Y"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Amazon",
+            "Best_Price": "35,990.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Note-4 GOLD SM-N910GZDEINS",
+            "Product_Color": "",
+            "Uri": "http://www.amazon.in/Samsung-Galaxy-Note-Gold-SM-N910GZDEINS/dp/B00QNOCGDQ/"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Shopclues",
+            "Best_Price": "40,800.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://www.shopclues.com/samsung-galaxy-note-4-18.html"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Indiatimes Shopping",
+            "Best_Price": "36,363.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 Bronze Gold",
+            "Product_Color": "",
+            "Uri": "http://shopping.indiatimes.com/mobiles/samsung/samsung-galaxy-note-4-bronze-gold-/25014/p_B3658847"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Paytm",
+            "Best_Price": "36,879.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 32 GB (Charcoal Black)",
+            "Product_Color": "",
+            "Uri": "http://paytm.com/shop/p/samsung-galaxy-note-4-charcoal-black-SAMSUNG_GALAXYNOTE4SM-N910GZWE_32GB_CHARCOALBLACK_35059"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Croma Retail",
+            "Best_Price": "36,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 GSM Mobile Phone (Gold)",
+            "Product_Color": "",
+            "Uri": "http://www.cromaretail.com/Samsung-Galaxy-Note-4-GSM-Mobile-Phone-(Gold)-pc-24114-95.aspx"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Homeshop18",
+            "Best_Price": "41,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 - N910G Android Mobile Phone",
+            "Product_Color": "",
+            "Uri": "http://www.homeshop18.com/samsung-galaxy-note-4-n910g-android-mobile-phone/mobiles/mobile-phones/product:32898997/cid:3027/"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Askmebazaar",
+            "Best_Price": "41,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 Smart Phone",
+            "Product_Color": "",
+            "Uri": "http://askmebazaar.com/product.php?app_data=cHJvZHVjdF9pZD0yNDA5MjQxJnN0b3JlX2Zyb250X2lkPTIxMSZkZWFsc2d1cnU9MQ"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Saholic",
+            "Best_Price": "57,500.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://www.saholic.com/mobile-phones/samsung-galaxy-note-4-1011456"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Ebay.In",
+            "Best_Price": "34,999.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung galaxy note 4",
+            "Product_Color": "",
+            "Uri": "http://www.ebay.in/itm/Samsung-galaxy-note-4-/262272024990?hash=item3d10a1819e:g:fCUAAOSwcdBWSZsV"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Ebay.In",
+            "Best_Price": "35,000.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 (Latest Model) - 32GB - Charcoal Black Smartphone",
+            "Product_Color": "",
+            "Uri": "http://www.ebay.in/itm/Samsung-Galaxy-Note-4-Latest-Model-32GB-Charcoal-Black-Smartphone-/262265763678?hash=item3d1041f75e:g:kOoAAOSw-zxWnxHP"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Ebay.In",
+            "Best_Price": "36,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "SM-N910GZWEINS - Samsung Galaxy Note 4 - White - Smartphone",
+            "Product_Color": "",
+            "Uri": "http://www.ebay.in/itm/SM-N910GZWEINS-Samsung-Galaxy-Note-4-White-Smartphone-/321966470636?hash=item4af6b275ec:g:IWAAAOSwYIhWilPG"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Ebay.In",
+            "Best_Price": "38,149.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 IV SM-N910T ( 4G FACTORY GSM UNLOCKED) (A)",
+            "Product_Color": "",
+            "Uri": "http://www.ebay.in/itm/Samsung-Galaxy-Note-4-IV-SM-N910T-4G-FACTORY-GSM-UNLOCKED-A-/121865036682?hash=item1c5fb8e38a:g:CCAAAOSwaNBUh2Dh"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Flipkart",
+            "Best_Price": "29,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://dl.flipkart.com/dl/samsung-galaxy-note-4/p/itmeyfhgfdb75r73?pid=MOBEYAW2RFHQG83F"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Flipkart",
+            "Best_Price": "29,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://dl.flipkart.com/dl/samsung-galaxy-note-4/p/itmeyfh2zrguzfrc?pid=MOBEYAW2V25HZNAV"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Flipkart",
+            "Best_Price": "29,900.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://dl.flipkart.com/dl/samsung-galaxy-note-4/p/itmeyfhgwxg9cphj?pid=MOBEYAW2HCYCQJRZ"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Amazon",
+            "Best_Price": "34,999.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 (Black)",
+            "Product_Color": "",
+            "Uri": "http://www.amazon.in/Samsung-Galaxy-Note-4-Black/dp/B00OKDXK0U/"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Shopclues",
+            "Best_Price": "54,800.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4",
+            "Product_Color": "",
+            "Uri": "http://www.shopclues.com/samsung-galaxy-note-4-6.html"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Indiatimes Shopping",
+            "Best_Price": "36,363.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 Charcoal Black",
+            "Product_Color": "",
+            "Uri": "http://shopping.indiatimes.com/mobiles/samsung/samsung-galaxy-note-4-charcoal-black-/25014/p_B3658843"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Indiatimes Shopping",
+            "Best_Price": "36,363.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 Frost White",
+            "Product_Color": "",
+            "Uri": "http://shopping.indiatimes.com/mobiles/samsung/samsung-galaxy-note-4-frost-white-/25014/p_B3658841"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Paytm",
+            "Best_Price": "41,999.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 32 GB (Blossom Pink)",
+            "Product_Color": "",
+            "Uri": "http://paytm.com/shop/p/samsung-galaxy-note-4-32-gb-blossom-pink-MOBSAMSUNG-GALATRAD172095EEDBB4F6"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Paytm",
+            "Best_Price": "48,000.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 32 GB (Bronze Gold)",
+            "Product_Color": "",
+            "Uri": "http://paytm.com/shop/p/samsung-galaxy-note-4-bronze-gold-MOBSAMSUNG-GALASTAR7673750AE3163"
+        },
+        {
+            "PriceTree_Id": 81332,
+            "Seller_Name": "Paytm",
+            "Best_Price": "49,999.00",
+            "In_Stock": "Yes",
+            "Product_Name": "Samsung Galaxy Note 4 32 GB (Frost White)",
+            "Product_Color": "",
+            "Uri": "http://paytm.com/shop/p/samsung-galaxy-note-4-32-gb-frost-white-MOBSAMSUNG-GALANEW-45114789FBFEC"
+        }
+    ]
+}
