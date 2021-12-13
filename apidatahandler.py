@@ -15,7 +15,7 @@ import re
 import pandas
 import requests
 import sys
-
+import validator
 from IPython.core.display import HTML, display
 import pdfkit
 
@@ -77,7 +77,7 @@ class ApiDataHandler:
         if isinstance(self.url, str):
             try:
                 # validating the URL received from the user.
-                if re.match(r"^(?:http)s?://[a-zA-z]+\.[a-z0-9A-Z-@?&/=:_%~+#]+\.[a-zA-z]{2,"
+                if re.match(r"^(http)s?://[a-zA-z]+\.[a-z0-9A-Z-@?&/=:_%~+#]+\.[a-zA-z]{2,"
                             r"5}/?([a-zA-Z0-9]?)+/?([-a-zA-z0-9]?)+", self.url):
                     # if the api URL contains object ID and user wants to retrieve the data
                     # user wants to retrieve the data between a specfic range
@@ -148,7 +148,7 @@ class ApiDataHandler:
                                 for item in data_dict[key]:
 
                                     # looping through each element of dict value and validating it as a link
-                                    if not re.match(r"^(?:http)s?://[a-zA-z]+\.[a-z0-9A-Z-@?&/=:_%~+#]+\.[a-zA-z]{2,"
+                                    if not re.match(r"^(http)s?://[a-zA-z]+\.[a-z0-9A-Z-@?&/=:_%~+#]+\.[a-zA-z]{2,"
                                                     r"5}/?([a-zA-Z0-9]?)+/?([-a-zA-z0-9]?)+", item):
                                         continue
                                     response = requests.get(item)
@@ -186,28 +186,19 @@ class ApiDataHandler:
             logging.error(f"{jde.__class__.__name__}: {jde}")
             sys.exit(1)
 
-    def jsonconverter(self, json_data=None, file_format='csv', filename=None, encoding="utf-8", index=False,
-                      escape=False, format_dict_arg=None, html_string_arg=None, render_links=True,
-                      classes: str = None, columns: Sequence[str] = None):
+    def jsontosheets(self, json_data=None, file_format='csv', filename=None, encoding="utf-8", index=False):
         """
-        Converts the JSON data fetched from API into Excel, Csv,
-        Xml or HTML format and saves inside the file (filename).
+        Converts the JSON data fetched from API into
+        Excel, Csv, Xml format and saves it inside the file (filename).
         :param json_data: Json data that needs to be converted into available formats.
         :param file_format: The desired file format you wants to convert data into.
                             -> file_format = 'csv' - will convert it into csv format(default format),
-                            -> file_format = 'html' - will convert it into html format,
                             -> file_format = 'excel' - will convert it into Excel format,
                             -> file_format = 'xml' - will convert it into xml format.
         :param filename: User defined filename to save the converted data. It can contain path with filename as well.
                          If no filename is provided, then default filename will be used.
         :param encoding: The encoding value user wants to encode the file data.
         :param index: If each row should include index, default is False.
-        :param escape: Convert the characters <, >, and & to HTML-safe sequences.
-        :param format_dict_arg: formatters for HTML elements
-        :param html_string_arg: HTML template for the data presentation.
-        :param render_links: renders the document URL links to HTML hyperlink
-        :param classes: Add classes to HTML template
-        :param columns: Data Columns for include in HTML file
         :return: None
         """
         try:
@@ -226,21 +217,52 @@ class ApiDataHandler:
                     self.filename = "jsonToXml.xml" if filename is None else filename
                     self.dataframe.to_xml(self.filename, encoding=encoding, index=index)
 
-                elif file_format.lower() == 'html':
-                    self.filename = "jsonToHtml.html" if filename is None else filename
-                    display(HTML(self.dataframe.to_html(escape=False, formatters=format_dict_arg)))
-                    if html_string_arg is not None:
-                        with open(filename, mode="w", encoding=encoding) as f:
-                            f.write(html_string_arg.format(table=self.dataframe.to_html(index=index, escape=escape,
-                                                                                        formatters=format_dict_arg,
-                                                                                        render_links=render_links,
-                                                                                        classes=classes,
-                                                                                        columns=columns)))
-                    else:
-                        self.dataframe.to_html(filename, index=index, escape=escape,
-                                               render_links=render_links, classes=classes, columns=columns)
             else:
                 logging.warning(f"file format {file_format} not allowed!")
+        except PermissionError as pe:
+            logging.error(f"{pe.__class__.__name__}: {pe}")
+            logging.error(f"Cannot edit the file {filename}")
+            sys.exit(1)
+        except Exception as e:
+            logging.error(f"{e.__class__.__name__}:{e}")
+
+    def jsontohtml(self, json_data=None, filename=None, encoding="utf-8", index=False,
+                   escape=False, format_dict_arg=None, html_string_arg=None, render_links=True,
+                   classes: str = None, columns: Sequence[str] = None):
+        """
+        This method generates the HTML file from JSON data retrieved from API.
+        User can give desire HTML formatting to represent the data in the browser.
+        If not, then a simple table will be generated using HTML table tags in the file.
+
+        :param json_data: Json data that needs to be converted into available formats
+        :param filename: User defined filename to save the converted data.
+                         It can contain path with filename as well.
+                         If, no filename is provided, then default filename will be used.
+        :param encoding: The encoding value user wants to encode the file data.
+        :param index: If each row should include index, default is False.
+        :param escape: Convert the characters <, >, and & to HTML-safe sequences.
+        :param format_dict_arg: formatters for HTML elements
+        :param html_string_arg: HTML template for the data presentation.
+        :param render_links: renders the document URL links to HTML hyperlink
+        :param classes: Add classes to HTML template
+        :param columns: Data Columns for include in HTML file
+        :return: None
+        """
+        try:
+            if json_data is not None and len(json_data):
+                self.dataframe = pandas.DataFrame(json_data)
+                self.filename = "jsonToHtml.html" if filename is None else filename
+                display(HTML(self.dataframe.to_html(escape=False, formatters=format_dict_arg)))
+                if html_string_arg is not None:
+                    with open(filename, mode="w", encoding=encoding) as f:
+                        f.write(html_string_arg.format(table=self.dataframe.to_html(index=index, escape=escape,
+                                                                                    formatters=format_dict_arg,
+                                                                                    render_links=render_links,
+                                                                                    classes=classes,
+                                                                                    columns=columns)))
+                else:
+                    self.dataframe.to_html(filename, index=index, escape=escape,
+                                           render_links=render_links, classes=classes, columns=columns)
         except PermissionError as pe:
             logging.error(f"{pe.__class__.__name__}: {pe}")
             logging.error(f"Cannot edit the file {filename}")
