@@ -18,7 +18,7 @@ import requests
 from IPython.core.display import HTML, display
 import pdfkit
 
-logging.basicConfig(filename='../GhibliStudio.log', level=logging.INFO,
+logging.basicConfig(filename='GhibliStudio.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%('
                            'message)s')
 
@@ -39,7 +39,7 @@ class ApiDataHandler:
     and generate the file with the specified file format.
     """
 
-    def __init__(self, url: str = '', start_object_id: int = None,
+    def __init__(self, url: str = None, start_object_id: int = None,
                  end_object_id: int = None):
         """
         The constructor for the ApiDataHandler class.
@@ -56,6 +56,9 @@ class ApiDataHandler:
         self.t_list = []
         if isinstance(url, str) and url != '':
             self.url = url
+        else:
+            logging.warning("Please provide a URL to process!")
+            sys.exit(1)
         if isinstance(start_object_id, int):
             self.start_object_id = start_object_id
         else:
@@ -93,13 +96,14 @@ class ApiDataHandler:
 
                             self.result = requests.get(self.url + str(ob_id))
 
-                            if self.result is not None and len(self.result.json()):
+                            if self.result is not None and self.result.status_code == 200:
                                 self.t_list.append(self.result.json())
 
                             else:
                                 logging.warning('value of result is %s', self.result)
                         return self.t_list
                     elif o_id is None:
+
                         self.result = requests.get(self.url)
                     else:
                         if not self.url.endswith('/'):
@@ -115,11 +119,11 @@ class ApiDataHandler:
                 logging.error('%s: %s', {rce.__class__.__name__}, {rce})
                 logging.error('Couldn\'t make the connection')
                 sys.exit(1)
-            except json.JSONDecodeError as jde:
+            except json.decoder.JSONDecodeError as jde:
                 logging.error('%s: %s', jde.__class__.__name__, jde)
                 sys.exit(1)
             else:
-                if self.result is not None:
+                if self.result is not None and self.result.status_code == 200:
                     result_data = self.result.json()
                     return result_data
                 else:
