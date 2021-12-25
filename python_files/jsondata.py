@@ -14,7 +14,7 @@ t_list = []
 
 # Opening the CSV file where I will keep the data
 file: TextIO
-with open("csv_file.csv", "w", encoding="utf-8-sig") as file:
+with open("../csv_file.csv", "w", encoding="utf-8-sig") as file:
     header = data[0].keys()
 
     writer = csv.DictWriter(file, fieldnames=header)

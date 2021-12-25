@@ -18,7 +18,7 @@ import requests
 from IPython.core.display import HTML, display
 import pdfkit
 
-logging.basicConfig(filename='GhibliStudio.log', level=logging.INFO,
+logging.basicConfig(filename='../GhibliStudio.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%('
                            'message)s')
 
@@ -95,9 +95,10 @@ class ApiDataHandler:
 
                             if self.result is not None and len(self.result.json()):
                                 self.t_list.append(self.result.json())
-                                return self.t_list
+
                             else:
                                 logging.warning('value of result is %s', self.result)
+                        return self.t_list
                     elif o_id is None:
                         self.result = requests.get(self.url)
                     else:
@@ -115,9 +116,8 @@ class ApiDataHandler:
                 logging.error('Couldn\'t make the connection')
                 sys.exit(1)
             except json.JSONDecodeError as jde:
-                logging.error('%s: %s', {jde.__class__.__name__}, {jde})
+                logging.error('%s: %s', jde.__class__.__name__, jde)
                 sys.exit(1)
-
             else:
                 if self.result is not None:
                     result_data = self.result.json()
@@ -302,7 +302,7 @@ class ApiDataHandler:
         :return: None
         """
         try:
-            if os.path.splitext(html_file)[-1].lower() == '.html' and os.path.isfile(html_file):
+            if os.path.splitext(html_file)[-1] == '.html' and os.path.isfile(html_file):
                 self.pdf_file = 'apidatapdf.pdf' if pdf_file is None else pdf_file
                 config = pdfkit.configuration(wkhtmltopdf=pathto_wkhtmltopdf)
                 pdfkit.from_file(html_file, pdf_file,

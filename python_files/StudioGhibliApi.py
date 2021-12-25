@@ -1,11 +1,13 @@
-import logging
 import json
+import logging
 import sys
+
 from apidataprocessing.apidatahandler import ApiDataHandler
+from pathlib import Path
 
 if __name__ == '__main__':
 
-    logging.basicConfig(filename='GhibliStudio.log', level=logging.INFO,
+    logging.basicConfig(filename='../GhibliStudio.log', level=logging.INFO,
                         format='%(asctime)s:%(levelname)s:%('
                                'message)s')
     format_dict: dict = {}
@@ -15,14 +17,17 @@ if __name__ == '__main__':
         object_to_fetch_data = ApiDataHandler(URL)
         response_data = object_to_fetch_data.request_to_response()
         data = object_to_fetch_data.fetch_nested_link_data(response_data, 'url')
+        rel_path = "Generated reports/GhibliStudio/"
+        Path(rel_path).mkdir(exist_ok=True)
+
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='csv',
-                                            filename='ghibliStudioApi_csv.csv',
+                                            filename=rel_path+'ghibliStudioApi_csv.csv',
                                             encoding='utf-8-sig', index=False, )
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='excel',
-                                            filename='ghibliStudioApi_xl.xlsx',
+                                            filename=rel_path+'ghibliStudioApi_xl.xlsx',
                                             encoding='utf-8-sig', index=False, )
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='xml',
-                                            filename='ghibliStudioApi_xml.xml',
+                                            filename=rel_path+'ghibliStudioApi_xml.xml',
                                             encoding='utf-8', index=False, )
 
         # Converting the image to image-url so that Browsers can render it
@@ -51,7 +56,7 @@ if __name__ == '__main__':
         {table} </div> </body> </html> '''
 
         object_to_fetch_data.json_to_html(json_data=data,
-                                          filename='ghibliStudioApi_html.html',
+                                          filename=rel_path+'ghibliStudioApi_html.html',
                                           encoding='utf-8-sig', index=False, escape=False,
                                           format_dict_arg=format_dict, html_string_arg=html_string,
                                           render_links=True,
@@ -62,8 +67,8 @@ if __name__ == '__main__':
                                                    'running_time', 'people', 'species',
                                                    'locations', 'vehicles'])
 
-        object_to_fetch_data.htmltopdf(html_file='ghibliStudioApi_html.html',
-                                       pdf_file='ghibliStudioApi_pdf.pdf',
+        object_to_fetch_data.htmltopdf(html_file=rel_path+'ghibliStudioApi_html.html',
+                                       pdf_file=rel_path+'ghibliStudioApi_pdf.pdf',
                                        options={'orientation': 'Landscape', 'page-size': 'A3',
                                                 'user-style-sheet': '.\\df_style.css'})
 
@@ -71,5 +76,5 @@ if __name__ == '__main__':
         logging.error('%s: %s', {te.__class__.__name__}, {te})
         sys.exit(1)
     except json.JSONDecodeError as jde:
-        logging.error('%s: %s', {jde.__class__.__name__}, {jde})
+        logging.error('%s: %s', jde.__class__.__name__, jde)
         sys.exit(1)

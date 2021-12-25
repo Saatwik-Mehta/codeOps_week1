@@ -10,10 +10,10 @@ import json
 import pandas as pd
 import re
 import matplotlib.pyplot as plt
-logging.basicConfig(filename="PriceTreeLoggings.log", level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%("
+logging.basicConfig(filename="../PriceTreeLoggings.log", level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%("
                                                                                   "message)s")
 
-with open("PriceComp.json", "r") as f:
+with open("../jsonfiles/PriceComp.json", "r") as f:
     data = json.load(f)
 
 
