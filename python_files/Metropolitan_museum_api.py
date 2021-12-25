@@ -1,11 +1,12 @@
 import logging
 import pandas
-from apidatahandler import ApiDataHandler
 import pathlib
 
-logging.basicConfig(filename='../GhibliStudio.log', level=logging.INFO,
+logging.basicConfig(filename='./logs/Metropolitan_museum_api.log', level=logging.INFO,
                     format='%(asctime)s:%(levelname)s:%('
                            'message)s')
+
+from apidatahandler import ApiDataHandler
 
 URL = 'https://collectionapi.metmuseum.org/public/collection/v1/objects'
 
@@ -25,6 +26,7 @@ def get_list_col_func(api_data=None):
                         if isinstance(dict_data[key][0], dict):
                             continue
                         remove_col.append(key)
+                        dict_data[key] = ''.join(dict_data[key])
         get_list_col = [i for i in get_list_col if i not in remove_col]
     return get_list_col
 
@@ -33,7 +35,7 @@ def flat_data(api_data=None, nested_data_col=None):
     if nested_data_col is not None and api_data:
         api_data_df = pandas.DataFrame(api_data)
         for column in nested_data_col:
-            dataframe = pandas.json_normalize(api_data, record_path=column, record_prefix=column+'_')
+            dataframe = pandas.json_normalize(api_data, record_path=column, record_prefix=column + '_')
             for col in dataframe:
                 api_data_df[col] = dataframe[col]
             api_data_df = api_data_df.drop(columns=[column], axis=1)
@@ -46,7 +48,7 @@ try:
     response_data = object_d.request_to_response()
     nested_col = get_list_col_func(api_data=response_data)
     data = flat_data(response_data, nested_col)
-    rel_dir = 'Generated_reports/Metropolitan_museum/'
+    rel_dir = '../Generated_reports/Metropolitan_museum/'
     pathlib.Path(rel_dir).mkdir(exist_ok=True)
     data.to_csv(rel_dir + 'Metropolitan_Museum_api.csv', index=False)
 except Exception as e:
