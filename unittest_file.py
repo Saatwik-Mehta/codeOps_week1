@@ -2,8 +2,14 @@ import json
 import unittest
 from unittest.mock import patch
 import os
-from python_files.apidatahandler import ApiDataHandler
 import logging
+
+logging.basicConfig(filename='log_unittest.log',
+                    level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%('
+                           'message)s')
+
+from python_files.apidatahandler import ApiDataHandler
 
 
 class test_ApiDataHandler(unittest.TestCase):
@@ -65,11 +71,11 @@ class test_myapi_reports(unittest.TestCase):
     file_path_html = os.path.join(script_dir, rel_path_html)
 
     def setUp(self) -> None:
-        with open("Ghiblistudiodata_test.csv", "r", encoding="utf-8-sig") as my_csv:
+        with open("test_reports/Ghiblistudiodata_test.csv", "r", encoding="utf-8-sig") as my_csv:
             self.my_csv_content = my_csv.read()
-        with open("Ghiblistudiodata_test.xml", "r", encoding="UTF-8") as my_xml:
+        with open("test_reports/Ghiblistudiodata_test.xml", "r", encoding="UTF-8") as my_xml:
             self.my_xml_content = my_xml.read()
-        with open("Ghiblistudio_test.html", "r", encoding="UTF-8") as my_html:
+        with open("test_reports/Ghiblistudio_test.html", "r", encoding="UTF-8") as my_html:
             self.my_html_content = my_html.read()
         self.maxDiff = None
 
@@ -93,8 +99,4 @@ class test_myapi_reports(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='logunittest.log',
-                        level=logging.INFO,
-                        format='%(asctime)s:%(levelname)s:%('
-                               'message)s')
     unittest.main()

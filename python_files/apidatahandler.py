@@ -18,9 +18,8 @@ import requests
 from IPython.core.display import HTML, display
 import pdfkit
 
-logging.basicConfig(filename='GhibliStudio.log', level=logging.INFO,
-                    format='%(asctime)s:%(levelname)s:%('
-                           'message)s')
+logging.basicConfig(filename='./logs/GhibliStudio.log', level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 class ApiDataHandler:
@@ -56,9 +55,9 @@ class ApiDataHandler:
         self.t_list = []
         if isinstance(url, str) and url != '':
             self.url = url
-        else:
+        elif url is None:
+            self.url = url
             logging.warning("Please provide a URL to process!")
-            sys.exit(1)
         if isinstance(start_object_id, int):
             self.start_object_id = start_object_id
         else:
@@ -226,7 +225,7 @@ class ApiDataHandler:
         """
         try:
             if json_data is not None and len(json_data):
-                self.dataframe = pandas.DataFrame(json_data)
+                self.dataframe = pandas.json_normalize(json_data)
 
                 if file_format.lower() == 'csv':
                     self.filename = 'jsonToCsv.csv' if filename is None else filename
@@ -271,7 +270,7 @@ class ApiDataHandler:
         """
         try:
             if json_data is not None and len(json_data):
-                self.dataframe = pandas.DataFrame(json_data)
+                self.dataframe = pandas.json_normalize(json_data)
                 self.filename = 'jsonToHtml.html' if filename is None else filename
                 display(HTML(self.dataframe.to_html(escape=False, formatters=format_dict_arg)))
                 if html_string_arg is not None:
