@@ -17,7 +17,7 @@ if __name__ == '__main__':
         object_to_fetch_data = ApiDataHandler(URL)
         response_data = object_to_fetch_data.request_to_response()
         data = object_to_fetch_data.fetch_nested_link_data(response_data, 'url')
-        rel_path = "Generated reports/GhibliStudio/"
+        rel_path = "Generated_reports/GhibliStudio/"
         Path(rel_path).mkdir(exist_ok=True)
 
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='csv',

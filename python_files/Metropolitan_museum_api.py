@@ -46,7 +46,7 @@ try:
     response_data = object_d.request_to_response()
     nested_col = get_list_col_func(api_data=response_data)
     data = flat_data(response_data, nested_col)
-    rel_dir = 'Generated reports/Metropolitan_museum/'
+    rel_dir = 'Generated_reports/Metropolitan_museum/'
     pathlib.Path(rel_dir).mkdir(exist_ok=True)
     data.to_csv(rel_dir + 'Metropolitan_Museum_api.csv', index=False)
 except Exception as e:
