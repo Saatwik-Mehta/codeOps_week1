@@ -285,7 +285,7 @@ class ApiDataHandler:
                     self.dataframe.to_html(filename, index=index,
                                            escape=escape,
                                            render_links=render_links,
-                                           classes=classes, columns=columns)
+                                           classes=classes, columns=columns, encoding=encoding)
         except PermissionError as perm_err:
             logging.error('%s: %s', {perm_err.__class__.__name__}, {perm_err})
             logging.error('Cannot edit the file %s', filename)
