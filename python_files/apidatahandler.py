@@ -114,9 +114,7 @@ class ApiDataHandler:
                 else:
                     logging.warning('URL schema is not proper!')
                     raise requests.exceptions.MissingSchema("URL schema is not proper!")
-            # except requests.exceptions.MissingSchema as ms:
-            #     logging.error('%s: %s', {ms.__class__.__name__}, {ms})
-            #     sys.exit(1)
+
             except requests.ConnectionError as rce:
                 logging.error('%s: %s', {rce.__class__.__name__}, {rce})
                 logging.error('Couldn\'t make the connection')
@@ -210,9 +208,6 @@ class ApiDataHandler:
             logging.error('%s: %s', {conn_err.__class__.__name__}, {conn_err})
             logging.info('Connection Interruption while execution')
             sys.exit(1)
-        # except TypeError as type_err:
-        #     logging.error('%s: %s', type_err.__class__.__name__, type_err)
-        #     return -1
         except json.decoder.JSONDecodeError as json_dcd_err:
             logging.error('%s: %s', {json_dcd_err.__class__.__name__}, {json_dcd_err})
             sys.exit(1)
