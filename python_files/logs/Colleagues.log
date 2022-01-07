@@ -1,2 +1,0 @@
-2021-12-25 22:09:39,403: WARNING: Please provide a URL to process!
-2021-12-25 22:09:39,403: ERROR: FileNotFoundError: [Errno 2] No such file or directory: '../jsonfiles/crypto_ap_url.json'
