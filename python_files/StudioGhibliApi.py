@@ -10,9 +10,6 @@ logging.basicConfig(filename="." + logs_dir + 'GhibliStudio.log', level=logging.
 
 from apidatahandler import ApiDataHandler
 
-# from apidataprocessing.apidatahandler import ApiDataHandler
-
-
 if __name__ == '__main__':
 
     format_dict: dict = {}
@@ -21,23 +18,24 @@ if __name__ == '__main__':
     try:
         object_to_fetch_data = ApiDataHandler(URL)
         response_data = object_to_fetch_data.request_to_response()
-        with open('../jsonfiles/StudioGhibliApi_raw.json', 'w', encoding='utf-8') as file:
+        with open('../test_reports/StudioGhibliApi_raw.json', 'w', encoding='utf-8') as file:
             file.write(json.dumps(response_data, indent=2, ensure_ascii=False))
 
         data = object_to_fetch_data.fetch_nested_link_data(response_data, 'url')
 
-        with open('../jsonfiles/StudioGhibliApi.json', 'w', encoding='utf-8') as file:
+        with open('../test_reports/StudioGhibliApi.json', 'w', encoding='utf-8') as file:
             file.write(json.dumps(data, indent=2, ensure_ascii=False))
 
-        rel_path = "../Generated_reports/GhibliStudio/"
+        rel_path = "../Generated_reports_simple_encoding/GhibliStudio/"
+
         Path(rel_path).mkdir(parents=True, exist_ok=True)
 
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='csv',
                                             filename=rel_path + 'ghibliStudioApi_csv.csv',
-                                            encoding='utf-8-sig', index=False, )
+                                            encoding='utf-8', index=False, )
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='excel',
                                             filename=rel_path + 'ghibliStudioApi_xl.xlsx',
-                                            encoding='utf-8-sig', index=False, )
+                                            encoding='utf-8', index=False, )
         object_to_fetch_data.json_to_sheets(json_data=data, file_format='xml',
                                             filename=rel_path + 'ghibliStudioApi_xml.xml',
                                             encoding='utf-8', index=False, )
@@ -79,8 +77,8 @@ if __name__ == '__main__':
                                                    'running_time', 'people', 'species',
                                                    'locations', 'vehicles'])
         object_to_fetch_data.json_to_html(json_data=data,
-                                          filename=rel_path+'ghibliStudioApi_raw_html.html',
-                                          index=False, render_links=False, encoding='utf-8-sig',
+                                          filename=rel_path + 'ghibliStudioApi_raw_html.html',
+                                          index=False, render_links=False, encoding='utf-8',
                                           columns=['id', 'title', 'original_title',
                                                    'image', 'director', 'producer', 'release_date',
                                                    'running_time', 'people', 'species',
@@ -94,9 +92,10 @@ if __name__ == '__main__':
                                                 'encoding': "UTF-8"})
 
         object_to_fetch_data.htmltopdf(html_file=rel_path + 'ghibliStudioApi_raw_html.html',
-                                       pdf_file=rel_path + 'ghibliStudioApi_raw_pdf.pdf',
-                                       options={'orientation': 'Landscape', 'page-size': 'A3'
-                                                , 'encoding': "UTF-8"})
+                                       pdf_file=rel_path + 'ghibliStudioApi_raw_pdf_match.pdf',
+                                       options={'orientation': 'Landscape', 'page-size': 'A3'})
+        # 'page-height': '2500', 'page-width': '1270'
+        # 'orientation': 'Landscape', 'page-size': 'A3'
 
     except TypeError as te:
         logging.error('%s: %s', {te.__class__.__name__}, {te})

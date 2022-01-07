@@ -9,6 +9,9 @@ this module includes
 """
 import json
 import logging
+
+logging.basicConfig(filename='./logs/GhibliStudio.log', level=logging.INFO,
+                    format='%(asctime)s:%(levelname)s:%(message)s')
 import os
 from typing import Sequence, List
 import re
@@ -17,9 +20,6 @@ import pandas
 import requests
 from IPython.core.display import HTML, display
 import pdfkit
-
-logging.basicConfig(filename='./logs/GhibliStudio.log', level=logging.INFO,
-                    format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 class ApiDataHandler:
@@ -94,8 +94,9 @@ class ApiDataHandler:
                                 self.url = self.url + '/'
 
                             self.result = requests.get(self.url + str(ob_id))
+                            self.result.raise_for_status()
 
-                            if self.result is not None and self.result.status_code == 200:
+                            if self.result is not None and self.result.ok:
                                 self.t_list.append(self.result.json())
 
                             else:
@@ -104,29 +105,33 @@ class ApiDataHandler:
                     elif o_id is None:
 
                         self.result = requests.get(self.url)
+                        self.result.raise_for_status()
                     else:
                         if not self.url.endswith('/'):
                             self.url = self.url + '/'
                         self.result = requests.get(self.url + str(o_id))
+                        self.result.raise_for_status()
                 else:
                     logging.warning('URL schema is not proper!')
-                    sys.exit(1)
-            except requests.exceptions.MissingSchema as ms:
-                logging.error('%s: %s', {ms.__class__.__name__}, {ms})
-                sys.exit(1)
+                    raise requests.exceptions.MissingSchema("URL schema is not proper!")
+            # except requests.exceptions.MissingSchema as ms:
+            #     logging.error('%s: %s', {ms.__class__.__name__}, {ms})
+            #     sys.exit(1)
             except requests.ConnectionError as rce:
                 logging.error('%s: %s', {rce.__class__.__name__}, {rce})
                 logging.error('Couldn\'t make the connection')
                 sys.exit(1)
+            except requests.HTTPError as http_err:
+                logging.error('%s: %s', http_err.__class__.__name__, http_err)
             except json.decoder.JSONDecodeError as jde:
                 logging.error('%s: %s', jde.__class__.__name__, jde)
                 sys.exit(1)
             else:
-                if self.result is not None and self.result.status_code == 200:
+                if self.result is not None and self.result.ok:
                     result_data = self.result.json()
                     return result_data
                 else:
-                    logging.warning('value of result is %s', self.result)
+                    return logging.warning('value of result is %s', self.result.status_code)
 
     def fetch_nested_link_data(self, api_data: List[dict] = None, data_id=None):
         """
@@ -154,41 +159,49 @@ class ApiDataHandler:
 
                     api_data = list(filter(None, api_data))
                     for data_dict in api_data:
-                        for key in data_dict:
-                            if data_dict[key] is not None \
-                                    and data_id is not None and \
-                                    isinstance(data_dict[key], list):
-                                for item in data_dict[key]:
+                        if isinstance(data_dict, dict):
+                            for key in data_dict:
+                                if data_dict[key] is not None \
+                                        and data_id is not None and \
+                                        isinstance(data_dict[key], list):
+                                    for item in data_dict[key]:
 
-                                    # Looping through each element of data_dict value
-                                    # and validating it as a link
-                                    if not re.match(r'^(http)s?://[a-zA-z]+\.'
-                                                    r'[a-z0-9A-Z-@?&/=:_%~+#]+\.'
-                                                    r'[a-zA-z]{2,5}/?'
-                                                    r'([a-zA-Z0-9]?)+/?'
-                                                    r'([-a-zA-z0-9]?)+/?', item):
-                                        continue
-                                    response = requests.get(item)
-                                    if response is not None and len(response.json()):
-                                        item_data = response.json()
+                                        # Looping through each element of data_dict value
+                                        # and validating it as a link
+                                        if not re.match(r'^(http)s?://[a-zA-z]+\.'
+                                                        r'[a-z0-9A-Z-@?&/=:_%~+#]+\.'
+                                                        r'[a-zA-z]{2,5}/?'
+                                                        r'([a-zA-Z0-9]?)+/?'
+                                                        r'([-a-zA-z0-9]?)+/?', item):
+                                            continue
+                                        response = requests.get(item)
+                                        if response is not None and response.ok:
+                                            item_data = response.json()
 
-                                        # Replacing the hyperlink with
-                                        # data field 'name' or 'title'.
-                                        if isinstance(item_data, dict):
-                                            data_dict[key][data_dict[key].index(item)] = item_data['name'] \
-                                                if 'name' in item_data else item_data['title']
-                                        elif isinstance(item_data, list):
-                                            self.t_list.extend([item_data_dict['name']
-                                                                for item_data_dict in item_data
-                                                                if data_dict[data_id] in
-                                                                item_data_dict['films']])
+                                            # Replacing the hyperlink with
+                                            # data field 'name' or 'title'.
+                                            if isinstance(item_data, dict):
+                                                data_dict[key][data_dict[key].index(item)] = item_data['name'] \
+                                                    if 'name' in item_data else item_data['title'] \
+                                                    if 'title' in item_data else ''
 
-                                            data_dict[key] = self.t_list
-                                            self.t_list = []
+                                            elif isinstance(item_data, list):
+                                                self.t_list.extend([item_data_dict['name']
+                                                                    for item_data_dict in item_data
+                                                                    if 'films' in item_data_dict
+                                                                    if data_dict[data_id] in
+                                                                    item_data_dict['films']])
 
-                                data_dict[key] = (','.join(data_dict[key])
-                                                  if data_dict[key] is not None else '')
-
+                                                data_dict[key] = self.t_list
+                                                self.t_list = []
+                                        else:
+                                            logging.warning(f"response from server is {response}")
+                                            return None
+                                    data_dict[key] = (','.join(data_dict[key])
+                                                      if data_dict[key] is not None else '')
+                else:
+                    logging.error("Expected List of dict! received something else")
+                    raise TypeError("Expected List of dict! received something else")
             else:
                 logging.warning('No data provided! in flat_list_data function')
                 sys.exit(1)
@@ -197,10 +210,10 @@ class ApiDataHandler:
             logging.error('%s: %s', {conn_err.__class__.__name__}, {conn_err})
             logging.info('Connection Interruption while execution')
             sys.exit(1)
-        except TypeError as type_err:
-            logging.error('%s: %s', {type_err.__class__.__name__}, {type_err})
-            sys.exit(1)
-        except json.JSONDecodeError as json_dcd_err:
+        # except TypeError as type_err:
+        #     logging.error('%s: %s', type_err.__class__.__name__, type_err)
+        #     return -1
+        except json.decoder.JSONDecodeError as json_dcd_err:
             logging.error('%s: %s', {json_dcd_err.__class__.__name__}, {json_dcd_err})
             sys.exit(1)
 
@@ -224,23 +237,30 @@ class ApiDataHandler:
         :return: None
         """
         try:
-            if json_data is not None and len(json_data):
-                self.dataframe = pandas.json_normalize(json_data)
+            if file_format in ['csv', 'excel', 'xml']:
+                if json_data is not None \
+                        and (isinstance(json_data, list)
+                             or isinstance(json_data, dict)):
+                    self.dataframe = pandas.json_normalize(json_data)
+                    if not self.dataframe.empty:
+                        if file_format.lower() == 'csv':
+                            self.filename = 'jsonToCsv.csv' if filename is None else filename
+                            self.dataframe.to_csv(self.filename, encoding=encoding, index=index)
 
-                if file_format.lower() == 'csv':
-                    self.filename = 'jsonToCsv.csv' if filename is None else filename
-                    self.dataframe.to_csv(self.filename, encoding=encoding, index=index)
+                        elif file_format.lower() == 'excel':
+                            self.filename = 'jsonToExcel.xlsx' if filename is None else filename
+                            self.dataframe.to_excel(self.filename, encoding=encoding, index=index)
 
-                elif file_format.lower() == 'excel':
-                    self.filename = 'jsonToExcel.xlsx' if filename is None else filename
-                    self.dataframe.to_excel(self.filename, encoding=encoding, index=index)
+                        elif file_format.lower() == 'xml':
+                            self.filename = 'jsonToXml.xml' if filename is None else filename
+                            self.dataframe.to_xml(self.filename, encoding=encoding, index=index)
 
-                elif file_format.lower() == 'xml':
-                    self.filename = 'jsonToXml.xml' if filename is None else filename
-                    self.dataframe.to_xml(self.filename, encoding=encoding, index=index)
-
+                    else:
+                        logging.warning("Generated dataFrame is Empty")
+                else:
+                    logging.error("Given data is not valid!")
             else:
-                logging.warning('file format %s', file_format, 'not allowed!')
+                logging.error(f"file format {file_format} not valid")
         except PermissionError as perm_err:
             logging.error('%s: %s', {perm_err.__class__.__name__}, {perm_err})
             logging.error('Cannot edit the file %s', filename)
@@ -269,7 +289,7 @@ class ApiDataHandler:
         :return: None
         """
         try:
-            if json_data is not None and len(json_data):
+            if json_data is not None and (isinstance(json_data, list) or isinstance(json_data, dict)):
                 self.dataframe = pandas.json_normalize(json_data)
                 self.filename = 'jsonToHtml.html' if filename is None else filename
                 display(HTML(self.dataframe.to_html(escape=False, formatters=format_dict_arg)))
